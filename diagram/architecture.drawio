@@ -18,7 +18,7 @@
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="5" value="Functionality" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
-                    <mxGeometry x="700" y="260" width="140" height="150" as="geometry"/>
+                    <mxGeometry x="700" y="260" width="140" height="180" as="geometry"/>
                 </mxCell>
                 <mxCell id="6" value="createWrappedToken()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;" vertex="1" parent="5">
                     <mxGeometry y="30" width="140" height="30" as="geometry"/>
@@ -32,6 +32,9 @@
                 <mxCell id="16" value="lockToken()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;" vertex="1" parent="5">
                     <mxGeometry y="120" width="140" height="30" as="geometry"/>
                 </mxCell>
+                <mxCell id="54" value="redeem()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;" vertex="1" parent="5">
+                    <mxGeometry y="150" width="140" height="30" as="geometry"/>
+                </mxCell>
                 <mxCell id="14" style="edgeStyle=none;rounded=0;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeColor=default;" edge="1" parent="1" source="10" target="2">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
@@ -41,7 +44,7 @@
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="10" value="Functionality" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
-                    <mxGeometry x="700" y="480" width="140" height="150" as="geometry"/>
+                    <mxGeometry x="700" y="480" width="140" height="180" as="geometry"/>
                 </mxCell>
                 <mxCell id="11" value="createWrappedToken()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;" vertex="1" parent="10">
                     <mxGeometry y="30" width="140" height="30" as="geometry"/>
@@ -54,6 +57,9 @@
                 </mxCell>
                 <mxCell id="15" value="lockToken()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;" vertex="1" parent="10">
                     <mxGeometry y="120" width="140" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="53" value="redeem()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;" vertex="1" parent="10">
+                    <mxGeometry y="150" width="140" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="20" style="edgeStyle=none;rounded=0;html=1;fontColor=#FFFFFF;strokeColor=default;" edge="1" parent="1" source="19">
                     <mxGeometry relative="1" as="geometry">

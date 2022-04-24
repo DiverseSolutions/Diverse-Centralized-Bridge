@@ -26,7 +26,7 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
  * @type import('hardhat/config').HardhatUserConfig
  */
 module.exports = {
-  solidity: "0.8.4",
+  solidity: "0.8.12",
   abiExporter: {
     path: './src/abi',
     runOnCompile: true,
@@ -35,14 +35,14 @@ module.exports = {
     pretty: true,
   },
   dodoc: {
-    runOnCompile: true,
+    runOnCompile: false,
     freshOutput: true,
     outputDir: 'dodoc',
   },
   docgen: {
     path: './docgen',
     clear: true,
-    runOnCompile: true,
+    runOnCompile: false,
   },
   networks: {
     ganache:{

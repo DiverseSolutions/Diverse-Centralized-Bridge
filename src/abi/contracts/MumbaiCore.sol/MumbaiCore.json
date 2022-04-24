@@ -1,0 +1,18 @@
+[
+  "event OwnershipTransferred(address indexed,address indexed)",
+  "event burnedWrappedToken(address,address,uint256)",
+  "event createdWrappedToken(string,string,uint8,address)",
+  "event mintedWrappedToken(address,address,uint256)",
+  "event redeemedWrappedToken(address,address,uint256)",
+  "function burnToken(address,address,uint256)",
+  "function createWrappedToken(string,string,uint8)",
+  "function mintToken(address,address,uint256)",
+  "function network() view returns (string)",
+  "function owner() view returns (address)",
+  "function redeemToken(address,address,uint256)",
+  "function renounceOwnership()",
+  "function transferOwnership(address)",
+  "function wrappedTokenAddressMapping(address) view returns (string)",
+  "function wrappedTokenAmount() view returns (uint256)",
+  "function wrappedTokenNameMapping(string) view returns (address)"
+]
