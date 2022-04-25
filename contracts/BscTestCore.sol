@@ -4,22 +4,23 @@ pragma solidity ^0.8.12;
 import "./IBridgeToken.sol";
 import "./BridgeToken.sol";
 
-contract TestBscCore is Ownable {
+contract BscTestCore is Ownable {
   string constant public network = "BSC-TestNet";
   event createdWrappedToken(string name,string symbol,uint8 decimals,address token);
   event mintedWrappedToken(address token,address mintedAddress,uint amount);
   event burnedWrappedToken(address token,address burnedAddress,uint amount);
   event redeemedWrappedToken(address token,address redeemedAddress,uint amount);
+  event lockedToken(address token,address fromUserAddress,uint amount);
 
   mapping(string => address) public wrappedTokenNameMapping;
   mapping(address => string) public wrappedTokenAddressMapping;
   uint public wrappedTokenAmount;
 
   function createWrappedToken(string memory name,string memory symbol,uint8 decimals) public {
-    BridgeToken _token = new BridgeToken(string.concat("Wrapped",name),symbol,decimals);
+    BridgeToken _token = new BridgeToken(name,symbol,decimals);
 
-    wrappedTokenNameMapping[string.concat("Wrapped",name)] = address(_token);
-    wrappedTokenAddressMapping[address(_token)] = string.concat("Wrapped",name);
+    wrappedTokenNameMapping[name] = address(_token);
+    wrappedTokenAddressMapping[address(_token)] = name;
     wrappedTokenAmount += 1;
 
     emit createdWrappedToken(name,symbol,decimals,address(_token));
@@ -44,6 +45,35 @@ contract TestBscCore is Ownable {
     _token.transfer(_transferAddress,_amount);
 
     emit redeemedWrappedToken(_transferAddress,address(_token),_amount);
+  }
+
+  function lockToken(address _tokenAddress,address _fromUser,uint _amount) external onlyOwner {
+    IBridgeToken _token = IBridgeToken(_tokenAddress);
+    _token.transferFrom(_fromUser,address(this),_amount);
+
+    emit lockedToken(_tokenAddress,_fromUser,_amount);
+  }
+
+  // Helper Functions
+
+  function hasWrappedTokenByName(string memory _name) view public returns(bool) {
+    address _hasAddress = wrappedTokenNameMapping[_name];
+
+    if(_hasAddress != address(0)){
+      return true;
+    }
+
+    return false;
+  }
+
+  function hasWrappedTokenByAddress(address _tokenAddress) view public returns(bool) {
+    string memory _name = wrappedTokenAddressMapping[_tokenAddress];
+
+    if(bytes(_name).length != 0){
+      return true;
+    }
+
+    return false;
   }
 
 }
