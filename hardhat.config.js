@@ -92,6 +92,13 @@ module.exports = {
         mnemonic : process.env.MNEMONIC,
       }
     },
+    ropsten: {
+      url: process.env.ROPSTEN_TESTNET_URL,
+      chainId: 3,
+      accounts: {
+        mnemonic : process.env.MNEMONIC,
+      }
+    },
     bscTestnet: {
       url: process.env.BSC_TESTNET_URL,
       chainId: 97,
