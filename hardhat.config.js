@@ -27,13 +27,22 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
  */
 module.exports = {
   solidity: "0.8.12",
-  abiExporter: {
-    path: './src/abi',
-    runOnCompile: true,
-    clear: true,
-    spacing: 2,
-    pretty: true,
-  },
+  abiExporter: [
+    {
+      path: './src/abi',
+      runOnCompile: true,
+      clear: true,
+      spacing: 2,
+      pretty: true,
+    },
+    {
+      path: './express/abi',
+      runOnCompile: true,
+      clear: true,
+      spacing: 2,
+      pretty: true,
+    },
+  ],
   dodoc: {
     runOnCompile: false,
     freshOutput: true,
