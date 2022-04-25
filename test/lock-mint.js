@@ -1,9 +1,9 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
-describe("BridgeCore - Create Wrapped Token", function () {
+describe("BridgeCore - Lock & Mint", function () {
 
-  it("Creating Wrapped Token - Test BSC DummyTokenA to Mumbai", async function () {
+  it("Lock & Mint - Test BSC DummyTokenA to Mumbai", async function () {
     const [owner] = await ethers.getSigners();
 
     const BscTestCore = await ethers.getContractFactory("BscTestCore");

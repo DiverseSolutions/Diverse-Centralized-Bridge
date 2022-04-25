@@ -11,6 +11,7 @@ contract MumbaiCore is Ownable {
   event burnedWrappedToken(address token,address burnedAddress,uint amount);
   event redeemedWrappedToken(address token,address redeemedAddress,uint amount);
   event lockedToken(address token,address fromUserAddress,uint amount);
+  event unlockedToken(address token,address fromUserAddress,uint amount);
 
   mapping(string => address) public wrappedTokenNameMapping;
   mapping(address => string) public wrappedTokenAddressMapping;
@@ -52,6 +53,12 @@ contract MumbaiCore is Ownable {
     _token.transferFrom(_fromUser,address(this),_amount);
 
     emit lockedToken(_tokenAddress,_fromUser,_amount);
+  }
+
+  function unlockToken(address _tokenAddress,address _toUser,uint _amount) external onlyOwner {
+    IBridgeToken _token = IBridgeToken(_tokenAddress);
+    _token.transferFrom(address(this),_toUser,_amount);
+    emit unlockedToken(_tokenAddress,_toUser,_amount);
   }
 
 
