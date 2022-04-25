@@ -11,11 +11,14 @@ const ERC20ABI = require('./abi/@openzeppelin/contracts/token/ERC20/ERC20.sol/ER
 const { addresses } = require('./constants');
 
 const express = require('express')
+const cors = require('cors')
+
 const { ethers } = require("ethers");
 
 const app = express()
 const port = 3500
 
+app.use(cors())
 app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
@@ -63,19 +66,19 @@ app.post('/lock', async (req, res) => {
       let tokenDecimals = await tokenContract.decimals();
       let amountBN = ethers.utils.parseUnits(amount.toString(),tokenDecimals)
 
-      let transactionHash = await contract.lockToken(tokenAddress,ownerAddress,amountBN)
-      console.log(transactionHash)
-      res.json({ transactionHash: '1231' })
+      let transactionHash = await contract.lockToken(tokenAddress,ownerAddress,amountBN.toString())
+      res.json({ transaction: transactionHash })
     }catch(e){
       res.json({
         error: e.reason ?? e.message,
       })
     }
+  }else{
+    res.json({
+      error: 'missing network,tokenAddress,ownerAddress,amount body parameter',
+    })
   }
 
-  res.json({
-    error: 'missing network,tokenAddress,ownerAddress,amount body parameter',
-  })
 })
 
 app.post('/balance', async (req, res) => {
@@ -83,18 +86,22 @@ app.post('/balance', async (req, res) => {
 
 
   if(network){
-    let wallet = getWallet(network)
-    let balanceBN = await wallet.getBalance()
-
+    try{
+      let wallet = getWallet(network)
+      let balanceBN = await wallet.getBalance()
+      res.json({
+        network: network,
+        balance: ethers.utils.formatUnits(balanceBN,"18")
+      })
+    }catch(e){
+      console.log(e)
+    }
+  }else{
     res.json({
-      network: network,
-      balance: ethers.utils.formatUnits(balanceBN,"18")
+      error: 'missing network',
     })
   }
 
-  res.json({
-    error: 'missing network',
-  })
 })
 
 app.post('/unlock', async (req, res) => {
@@ -104,11 +111,79 @@ app.post('/unlock', async (req, res) => {
 })
 
 app.post('/mint', async (req, res) => {
-  res.send("sheesh")
+  const { network,tokenAddress,mintAddress,amount } = req.body;
+
+  if(network && tokenAddress && mintAddress && amount){
+    let contract = getContractSigner(network)
+    let provider = getProvider(network)
+
+    try{
+      const tokenContract = new ethers.Contract(tokenAddress,ERC20ABI, provider);
+      let tokenDecimals = await tokenContract.decimals();
+      let amountBN = ethers.utils.parseUnits(amount.toString(),tokenDecimals)
+
+      let transactionHash = await contract.mintToken(tokenAddress,mintAddress,amountBN.toString())
+      res.json({ transaction: transactionHash })
+    }catch(e){
+      res.json({
+        error: e.reason ?? e.message,
+      })
+    }
+  }else{
+    res.json({
+      error: 'missing network,tokenAddress,mintAddress,amount body parameter',
+    })
+  }
 })
 
 app.post('/burn', async (req, res) => {
   res.send("sheesh")
+})
+
+app.post('/createWrappedToken', async (req, res) => {
+  const { network,name,symbol,decimals } = req.body;
+
+  if(network && name && symbol && decimals){
+    let contract = getContractSigner(network)
+
+    try {
+      let transactionResult = await contract.createWrappedToken(name,symbol,decimals)
+      res.json({ transaction: transactionResult })
+    } catch (e) {
+      res.json({
+        error: e.reason ?? e.message,
+      })
+    }
+
+  }else{
+    res.json({
+      error: 'missing network/name/symbol/decimals body',
+    })
+  }
+
+})
+
+app.post('/getWrappedTokenAddress', async (req, res) => {
+  const { network,name } = req.body;
+
+  if(network && name){
+    let contract = getContract(network)
+
+    try {
+      let _address = await contract.wrappedTokenNameMapping(name)
+      res.json({ address: _address })
+    } catch (e) {
+      res.json({
+        error: e.reason ?? e.message,
+      })
+    }
+
+  }else{
+    res.json({
+      error: 'missing network/name body',
+    })
+  }
+
 })
 
 app.post('/checkWrappedToken', async (req, res) => {
@@ -119,11 +194,11 @@ app.post('/checkWrappedToken', async (req, res) => {
       'network': req.body.network,
       'hasWrappedVersion': result
     })
+  }else{
+    res.json({
+      error: 'missing network or name body',
+    })
   }
-
-  res.json({
-    error: 'missing network or name body',
-  })
 })
 
 
@@ -140,9 +215,9 @@ function getProvider(name){
       return fujiProvider;
     case 'ropsten':
       return ropstenProvider;
-    case 'bscTestNet':
+    case 'bscTest':
       return bscTestNetProvider;
-    case 'fantomTestNet':
+    case 'fantomTest':
       return fantomTestNetProvider;
     default:
       throw "Found No Provider";
@@ -157,10 +232,10 @@ function getWallet(name){
       return fujiWallet;
     case 'ropsten':
       return ropstenWallet;
-    case 'bscTestNet':
+    case 'bscTest':
       return bscTestNetWallet;
-    case 'fantomTestNet':
-      return fantomTestNetProvider;
+    case 'fantomTest':
+      return fantomTestNetWallet;
     default:
       throw "Found No Provider";
   }
@@ -174,9 +249,9 @@ function getContract(name){
       return fujiCoreContract;
     case 'ropsten':
       return ropstenCoreContract;
-    case 'bscTestNet':
+    case 'bscTest':
       return bscTestNetCoreContract;
-    case 'fantomTestNet':
+    case 'fantomTest':
       return fantomTestNetCoreContract;
     default:
       throw "Found No Contract";
@@ -191,9 +266,9 @@ function getContractSigner(name){
       return fujiCoreSigner;
     case 'ropsten':
       return ropstenCoreSigner;
-    case 'bscTestNet':
+    case 'bscTest':
       return bscTestNetCoreSigner;
-    case 'fantomTestNet':
+    case 'fantomTest':
       return fantomTestNetCoreSigner;
     default:
       throw "Found No Signer";
