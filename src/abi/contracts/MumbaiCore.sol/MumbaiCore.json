@@ -5,6 +5,7 @@
   "event lockedToken(address,address,uint256)",
   "event mintedWrappedToken(address,address,uint256)",
   "event redeemedWrappedToken(address,address,uint256)",
+  "event unlockedToken(address,address,uint256)",
   "function burnToken(address,address,uint256)",
   "function createWrappedToken(string,string,uint8)",
   "function hasWrappedTokenByAddress(address) view returns (bool)",
@@ -16,6 +17,7 @@
   "function redeemToken(address,address,uint256)",
   "function renounceOwnership()",
   "function transferOwnership(address)",
+  "function unlockToken(address,address,uint256)",
   "function wrappedTokenAddressMapping(address) view returns (string)",
   "function wrappedTokenAmount() view returns (uint256)",
   "function wrappedTokenNameMapping(string) view returns (address)"

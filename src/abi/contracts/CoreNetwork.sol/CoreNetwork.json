@@ -12,7 +12,6 @@
   "function hasWrappedTokenByName(string) view returns (bool)",
   "function lockToken(address,address,uint256)",
   "function mintToken(address,address,uint256)",
-  "function network() view returns (string)",
   "function owner() view returns (address)",
   "function redeemToken(address,address,uint256)",
   "function renounceOwnership()",
