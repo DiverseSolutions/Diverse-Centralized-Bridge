@@ -12,7 +12,7 @@ export default function CheckNetwork({ children }){
       <>
         <Nav />
         <div className="flex flex-col items-center justify-center h-screen">
-          <h1 className="text-6xl font-bold text-black">Detected { network.currentNetwork.name[0] } Network</h1>
+          <h1 className="text-4xl font-bold text-black">Detected Wrong Network , { network.currentNetwork.name[0] } Network</h1>
 
           <div class="btn-group mt-5">
             <Link href={network.addCorrectNetworkMetamask}>

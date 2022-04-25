@@ -78,6 +78,25 @@ app.post('/lock', async (req, res) => {
   })
 })
 
+app.post('/balance', async (req, res) => {
+  const { network } = req.body;
+
+
+  if(network){
+    let wallet = getWallet(network)
+    let balanceBN = await wallet.getBalance()
+
+    res.json({
+      network: network,
+      balance: ethers.utils.formatUnits(balanceBN,"18")
+    })
+  }
+
+  res.json({
+    error: 'missing network',
+  })
+})
+
 app.post('/unlock', async (req, res) => {
   res.json({
     error: 'missing network or name body',
@@ -123,6 +142,23 @@ function getProvider(name){
       return ropstenProvider;
     case 'bscTestNet':
       return bscTestNetProvider;
+    case 'fantomTestNet':
+      return fantomTestNetProvider;
+    default:
+      throw "Found No Provider";
+  }
+}
+
+function getWallet(name){
+  switch(name){
+    case 'mumbai':
+      return mumbaiWallet;
+    case 'fuji':
+      return fujiWallet;
+    case 'ropsten':
+      return ropstenWallet;
+    case 'bscTestNet':
+      return bscTestNetWallet;
     case 'fantomTestNet':
       return fantomTestNetProvider;
     default:
